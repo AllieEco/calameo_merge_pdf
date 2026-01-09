@@ -1,18 +1,18 @@
-# Outil de Téléchargement et d'Extraction PDF Calameo
+# Calameo PDF Downloader & Extractor
 
-Ce projet permet de télécharger automatiquement toutes les images d'un document en ligne. Il a été spécifiquement conçu pour fonctionner avec le site **[Calameo PDF Downloader](https://calameo.pdf-downloader.com/)**.
+This project allows you to automatically download all images from an online document. It has been specifically designed to work with **[Calameo PDF Downloader](https://calameo.pdf-downloader.com/)**.
 
-Il télécharge les images, les convertit en un fichier PDF complet, puis permet d'extraire une plage de pages spécifique dans un second PDF nettoyé.
+It downloads the images, converts them into a complete PDF file, and then extracts a specific range of pages into a second, cleaned-up PDF.
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
-- **Python 3** doit être installé sur votre machine.
-- Une connexion internet.
+- **Python 3** must be installed on your machine.
+- An internet connection.
 
 ## 🚀 Installation
 
-1. **Ouvrez votre terminal** dans le dossier du projet.
-2. **Installez les dépendances** nécessaires avec la commande suivante :
+1. **Open your terminal** in the project folder.
+2. **Install the dependencies** using the following command:
 
 ```bash
 pip install -r requirements.txt
@@ -20,47 +20,46 @@ pip install -r requirements.txt
 
 ## ⚙️ Configuration
 
-Le projet utilise un fichier de configuration pour définir l'URL à télécharger et les pages à garder.
+The project uses a configuration file to define the download URL and the pages to keep.
 
-1.  **Copiez le fichier d'exemple** `env.example` et renommez-le en `.env` :
+1.  **Copy the example file** `env.example` and rename it to `.env`:
     
     ```bash
     cp env.example .env
-    # Ou manuellement en renommant le fichier
+    # Or rename it manually
     ```
 
-2.  **Ouvrez ce fichier `.env`** avec un éditeur de texte et modifiez les valeurs selon vos besoins :
+2.  **Open this `.env` file** with a text editor and modify the values according to your needs:
 
 ```env
-# L'URL exacte de la page de téléchargement où se trouvent les images
-TARGET_URL=votre_url_ici
+# The exact URL of the download page where the images are located
+TARGET_URL=your_url_here
 
-# La première page à conserver dans le PDF final
+# The first page to keep in the final PDF
 START_PAGE=32
 
-# La dernière page à conserver (incluse)
+# The last page to keep (inclusive)
 END_PAGE=176
 ```
 
-## 💻 Utilisation
+## 💻 Usage
 
-Une fois le fichier `.env` configuré, lancez simplement le script principal :
+Once the `.env` file is configured, simply run the main script:
 
 ```bash
 python main.py
 ```
 
-Le script va automatiquement :
-1.  Télécharger toutes les images.
-2.  Créer un PDF complet (`Resultat_Calameo.pdf`).
-3.  Supprimer les fichiers temporaires.
-4.  Créer le PDF final nettoyé avec uniquement les pages sélectionnées (`Resultat_Final_Clean.pdf`).
+The script will automatically:
+1.  Download all images.
+2.  Create a complete PDF (`Resultat_Calameo.pdf`).
+3.  Delete temporary files.
+4.  Create the final cleaned PDF with only the selected pages (`Resultat_Final_Clean.pdf`).
 
-*Note : Les scripts `downloader.py` et `extract_pages.py` existent toujours si vous avez besoin d'exécuter une seule étape manuellement.*
+*Note: The scripts `downloader.py` and `extract_pages.py` are still available if you need to run a single step manually.*
 
-## ⚠️ En cas de problème
+## ⚠️ Troubleshooting
 
-- **Le fichier .env n'est pas lu** : Vérifiez bien qu'il y a un point au début du nom de fichier (`.env` et non `env` ou `config.env`).
-- **Erreur de pages** : Si vous demandez la page 200 sur un document de 100 pages, le script d'extraction vous affichera une erreur explicite.
-- **Images manquantes** : Si le site change sa structure ou nécessite une authentification complexe, le téléchargement simple peut échouer. Vérifiez que l'URL dans le `.env` est toujours valide.
-
+- **The .env file is not read**: Make sure there is a dot at the beginning of the filename (`.env` and not `env` or `config.env`).
+- **Page error**: If you request page 200 on a 100-page document, the extraction script will show an explicit error.
+- **Missing images**: If the site changes its structure or requires complex authentication, simple downloading may fail. Check that the URL in `.env` is still valid.
