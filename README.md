@@ -31,10 +31,17 @@ The project uses a configuration file to define the download URL and the pages t
     # Or rename it manually
     ```
 
-2.  **Open this `.env` file** with a text editor and modify the values according to your needs:
+2.  **Open this `.env` file** with a text editor and modify the values.
+
+    **⚠️ IMPORTANT - How to get the `TARGET_URL`:**
+    1.  Go to [Calameo PDF Downloader](https://calameo.pdf-downloader.com/index.php).
+    2.  Paste the link of the Calaméo publication you want.
+    3.  Click "Download" and wait for the page to load the document preview.
+    4.  **Copy the URL from your browser's address bar** (it should look like `https://calameo.pdf-downloader.com/download.php?documentId=...`).
+    5.  Paste this URL into `TARGET_URL` below.
 
 ```env
-# The exact URL of the download page where the images are located
+# The URL of the page where the document pages are displayed
 TARGET_URL=your_url_here
 
 # The first page to keep in the final PDF (or set to "ALL" to keep everything)
