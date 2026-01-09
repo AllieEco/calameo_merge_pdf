@@ -61,9 +61,9 @@ python main.py
 
 The script will automatically:
 1.  Download all images.
-2.  Create a complete PDF (`Resultat_Calameo.pdf`).
+2.  Create a complete PDF (`calameo_result.pdf`).
 3.  Delete temporary files.
-4.  Create the final cleaned PDF with only the selected pages (`Resultat_Final_Clean.pdf`).
+4.  Create the final cleaned PDF with only the selected pages (`calameo_clean.pdf`).
 
 *Note: The scripts `downloader.py` and `extract_pages.py` are still available if you need to run a single step manually.*
 

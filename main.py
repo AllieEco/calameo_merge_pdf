@@ -22,8 +22,8 @@ def main():
         return
 
     # Filenames
-    pdf_complet = "Resultat_Calameo.pdf"
-    pdf_final = "Resultat_Final_Clean.pdf"
+    pdf_complet = "calameo_result.pdf"
+    pdf_final = "calameo_clean.pdf"
 
     # --- 2. Start Download ---
     print(f"\n[STEP 1/2] Downloading from: {target_url[:50]}...")
