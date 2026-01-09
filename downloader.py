@@ -1,4 +1,5 @@
 import os
+import shutil
 import requests
 from bs4 import BeautifulSoup
 from PIL import Image
@@ -69,6 +70,9 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
 
     if not downloaded_files:
         print("Aucune image n'a été téléchargée.")
+        # Nettoyage même si échec (dossier vide)
+        if os.path.exists(download_folder):
+            shutil.rmtree(download_folder)
         return
 
     print("\nConversion des images en PDF...")
@@ -86,16 +90,33 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
             print(f"Erreur lors du traitement de l'image {file} pour le PDF : {e}")
 
     if images_objects:
-        images_objects[0].save(
-            output_pdf_name, 
-            "PDF", 
-            resolution=100.0, 
-            save_all=True, 
-            append_images=images_objects[1:]
-        )
-        print(f"\nSuccès ! Le fichier '{output_pdf_name}' a été créé.")
+        try:
+            images_objects[0].save(
+                output_pdf_name, 
+                "PDF", 
+                resolution=100.0, 
+                save_all=True, 
+                append_images=images_objects[1:]
+            )
+            print(f"\nSuccès ! Le fichier '{output_pdf_name}' a été créé.")
+            
+            # Fermeture explicite des images avant suppression
+            # (PIL garde parfois les fichiers ouverts)
+            for img in images_objects:
+                img.close()
+                
+            # Suppression du dossier temporaire
+            print(f"Suppression du dossier temporaire '{download_folder}'...")
+            shutil.rmtree(download_folder)
+            print("Dossier temporaire supprimé.")
+            
+        except Exception as e:
+            print(f"Erreur lors de la sauvegarde du PDF ou du nettoyage : {e}")
     else:
         print("Aucune image valide à convertir en PDF.")
+        # Nettoyage en cas d'erreur de conversion
+        if os.path.exists(download_folder):
+            shutil.rmtree(download_folder)
 
 if __name__ == "__main__":
     # Récupération de l'URL depuis le fichier .env
