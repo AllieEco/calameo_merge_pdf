@@ -42,6 +42,17 @@ def main():
     
     extraire_pages_pdf(pdf_complet, pdf_final, start_page, end_page)
 
+    # --- 4. Cleanup ---
+    if os.path.exists(pdf_final):
+        print(f"\n[CLEANUP] Deleting intermediate file '{pdf_complet}'...")
+        try:
+            os.remove(pdf_complet)
+            print("Intermediate file deleted.")
+        except Exception as e:
+            print(f"Warning: Could not delete intermediate file: {e}")
+    else:
+        print(f"\nWarning: The final file '{pdf_final}' was not created. Keeping '{pdf_complet}' for safety.")
+
     print("\n=== PROCESS COMPLETED ===")
 
 if __name__ == "__main__":
