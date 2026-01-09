@@ -14,6 +14,11 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
         print("Error: No URL provided. Check your .env file (TARGET_URL).")
         return
 
+    # SECURITY CHECK: HTTPS ONLY
+    if not url.startswith("https://"):
+        print(f"❌ SECURITY ERROR: The URL must start with 'https://'. Non-secure HTTP URLs are blocked.\n   URL Provided: {url}")
+        return
+
     # Create temporary folder
     download_folder = "images_temp"
     if not os.path.exists(download_folder):
@@ -49,11 +54,15 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
         if not img_url:
             continue
 
-        if not img_url.startswith('http'):
-            if img_url.startswith('//'):
-                img_url = 'https:' + img_url
-            else:
-                continue 
+        # Force HTTPS for image resources as well
+        if img_url.startswith('//'):
+            img_url = 'https:' + img_url
+        elif img_url.startswith('http://'):
+            # Upgrade http image links to https automatically if possible, or skip
+            img_url = img_url.replace('http://', 'https://')
+        elif not img_url.startswith('https://'):
+            # Skip relative paths or other protocols if not easily resolvable to https
+            continue
 
         try:
             img_response = requests.get(img_url, headers=headers, timeout=10)
