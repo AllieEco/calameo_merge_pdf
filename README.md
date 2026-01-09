@@ -35,10 +35,10 @@ The project uses a configuration file to define the download URL and the pages t
 # The exact URL of the download page where the images are located
 TARGET_URL=your_url_here
 
-# The first page to keep in the final PDF
+# The first page to keep in the final PDF (or set to "ALL" to keep everything)
 START_PAGE=32
 
-# The last page to keep (inclusive)
+# The last page to keep (inclusive) (or set to "ALL" to keep everything)
 END_PAGE=176
 ```
 
