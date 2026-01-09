@@ -22,10 +22,14 @@ pip install -r requirements.txt
 
 Le projet utilise un fichier de configuration pour définir l'URL à télécharger et les pages à garder.
 
-1. Assurez-vous d'avoir un fichier nommé `.env` à la racine du projet.
-   *(Si vous avez un fichier `env` sans point, renommez-le en `.env`)*.
+1.  **Copiez le fichier d'exemple** `.env.example` et renommez-le en `.env` :
+    
+    ```bash
+    cp .env.example .env
+    # Ou manuellement en renommant le fichier
+    ```
 
-2. Ouvrez ce fichier `.env` avec un éditeur de texte et modifiez les valeurs selon vos besoins :
+2.  **Ouvrez ce fichier `.env`** avec un éditeur de texte et modifiez les valeurs selon vos besoins :
 
 ```env
 # L'URL exacte de la page de téléchargement où se trouvent les images
