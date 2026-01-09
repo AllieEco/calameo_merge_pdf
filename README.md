@@ -40,32 +40,19 @@ END_PAGE=176
 
 ## 💻 Utilisation
 
-Le processus se déroule en deux étapes simples.
-
-### Étape 1 : Téléchargement et Création du PDF Complet
-
-Ce script va télécharger toutes les images une par une et générer un premier gros fichier PDF.
-
-Exécutez la commande :
+Une fois le fichier `.env` configuré, lancez simplement le script principal :
 
 ```bash
-python downloader.py
+python main.py
 ```
 
-*   **Résultat** : Un fichier `Resultat_Calameo.pdf` est créé, contenant l'intégralité du document.
-*   *Note : Un dossier temporaire `images_temp` est créé pendant le processus.*
+Le script va automatiquement :
+1.  Télécharger toutes les images.
+2.  Créer un PDF complet (`Resultat_Calameo.pdf`).
+3.  Supprimer les fichiers temporaires.
+4.  Créer le PDF final nettoyé avec uniquement les pages sélectionnées (`Resultat_Final_Clean.pdf`).
 
-### Étape 2 : Extraction des Pages (Nettoyage)
-
-Ce script va prendre le PDF complet généré juste avant et ne garder que les pages définies dans votre fichier `.env` (`START_PAGE` à `END_PAGE`).
-
-Exécutez la commande :
-
-```bash
-python extract_pages.py
-```
-
-*   **Résultat** : Un fichier `Résultat_Lead_Vichy_Clean.pdf` est créé, ne contenant que les pages souhaitées.
+*Note : Les scripts `downloader.py` et `extract_pages.py` existent toujours si vous avez besoin d'exécuter une seule étape manuellement.*
 
 ## ⚠️ En cas de problème
 
