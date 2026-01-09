@@ -22,10 +22,10 @@ pip install -r requirements.txt
 
 Le projet utilise un fichier de configuration pour définir l'URL à télécharger et les pages à garder.
 
-1.  **Copiez le fichier d'exemple** `.env.example` et renommez-le en `.env` :
+1.  **Copiez le fichier d'exemple** `env.example` et renommez-le en `.env` :
     
     ```bash
-    cp .env.example .env
+    cp env.example .env
     # Ou manuellement en renommant le fichier
     ```
 
