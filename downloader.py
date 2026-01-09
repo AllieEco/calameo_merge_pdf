@@ -6,39 +6,39 @@ from PIL import Image, UnidentifiedImageError
 from io import BytesIO
 from dotenv import load_dotenv
 
-# Chargement des variables d'environnement depuis le fichier .env
+# Load environment variables
 load_dotenv()
 
 def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
     if not url:
-        print("Erreur : Aucune URL fournie. Vérifiez votre fichier .env (TARGET_URL).")
+        print("Error: No URL provided. Check your .env file (TARGET_URL).")
         return
 
-    # Création d'un dossier temporaire pour les images
+    # Create temporary folder
     download_folder = "images_temp"
     if not os.path.exists(download_folder):
         os.makedirs(download_folder)
 
-    # Headers améliorés pour ressembler encore plus à un vrai navigateur
+    # Enhanced headers
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
         'Referer': 'https://calameo.pdf-downloader.com/' 
     }
 
-    print(f"Connexion à l'URL : {url}")
+    print(f"Connecting to URL: {url}")
     
     try:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
-        print(f"Erreur lors de l'accès à la page : {e}")
+        print(f"Error accessing page: {e}")
         return
 
     soup = BeautifulSoup(response.text, 'html.parser')
     img_tags = soup.find_all('img')
     
-    print(f"{len(img_tags)} images trouvées. Début du téléchargement et de la vérification...")
+    print(f"{len(img_tags)} images found. Starting download and verification...")
 
     downloaded_files = []
     
@@ -59,17 +59,16 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
             img_response = requests.get(img_url, headers=headers, timeout=10)
             img_response.raise_for_status()
             
-            # --- VÉRIFICATION DE L'IMAGE ---
-            # On essaie de lire l'image en mémoire avant de l'enregistrer
+            # --- IMAGE VERIFICATION ---
             try:
                 image_data = BytesIO(img_response.content)
                 test_img = Image.open(image_data)
-                test_img.verify() # Vérifie que le fichier n'est pas corrompu
+                test_img.verify() # Verify file integrity
             except (IOError, UnidentifiedImageError):
-                print(f"⚠️  Image ignorée (Fichier invalide ou non-image) : {img_url}")
+                print(f"⚠️  Skipped image (Invalid file or not an image): {img_url}")
                 continue
             
-            # Si on arrive ici, l'image est valide. On l'enregistre.
+            # Save valid image
             filename = f"Image {counter}.jpg"
             filepath = os.path.join(download_folder, filename)
             
@@ -77,22 +76,22 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
                 f.write(img_response.content)
             
             downloaded_files.append(filepath)
-            print(f"✅ Téléchargé : {filename}")
+            print(f"✅ Downloaded: {filename}")
             counter += 1
             
         except Exception as e:
-            print(f"❌ Erreur sur {img_url} : {e}")
+            print(f"❌ Error on {img_url}: {e}")
 
     if not downloaded_files:
-        print("Aucune image valide n'a été téléchargée.")
+        print("No valid images downloaded.")
         if os.path.exists(download_folder):
             shutil.rmtree(download_folder)
         return
 
-    print("\nConversion des images en PDF...")
+    print("\nConverting images to PDF...")
     
     images_objects = []
-    # Tri numérique
+    # Numeric sort
     downloaded_files.sort(key=lambda x: int(os.path.basename(x).split('Image ')[1].split('.')[0]))
 
     for file in downloaded_files:
@@ -102,7 +101,7 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
                 img = img.convert('RGB')
             images_objects.append(img)
         except Exception as e:
-            print(f"Erreur lors du traitement de l'image {file} pour le PDF : {e}")
+            print(f"Error processing image {file} for PDF: {e}")
 
     if images_objects:
         try:
@@ -113,19 +112,19 @@ def download_images_and_create_pdf(url, output_pdf_name="document_final.pdf"):
                 save_all=True, 
                 append_images=images_objects[1:]
             )
-            print(f"\nSuccès ! Le fichier '{output_pdf_name}' a été créé.")
+            print(f"\nSuccess! File '{output_pdf_name}' created.")
             
             for img in images_objects:
                 img.close()
                 
-            print(f"Suppression du dossier temporaire '{download_folder}'...")
+            print(f"Deleting temporary folder '{download_folder}'...")
             shutil.rmtree(download_folder)
-            print("Dossier temporaire supprimé.")
+            print("Temporary folder deleted.")
             
         except Exception as e:
-            print(f"Erreur lors de la sauvegarde du PDF ou du nettoyage : {e}")
+            print(f"Error saving PDF or cleaning up: {e}")
     else:
-        print("Aucune image valide à convertir en PDF.")
+        print("No valid images to convert to PDF.")
         if os.path.exists(download_folder):
             shutil.rmtree(download_folder)
 
