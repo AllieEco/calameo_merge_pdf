@@ -1,6 +1,8 @@
 # Calameo PDF Downloader & Extractor
 
-This project allows you to automatically download all images from an online document. It has been specifically designed to work with **[Calameo PDF Downloader](https://calameo.pdf-downloader.com/)**.
+Sometimes, on [Calaméo](https://www.calameo.com/), some publications cannot be downloaded directly to your computer. Users often try to use third-party tools like [Calameo PDF Downloader](https://calameo.pdf-downloader.com/), but the "Download as PDF" button is frequently broken or unreliable.
+
+**This project provides a "crafted" solution to this problem.** It allows you to automatically retrieve the pages displayed by the downloader service, even if the final download button fails, and reconstruct the PDF yourself.
 
 It downloads the images, converts them into a complete PDF file, and then extracts a specific range of pages into a second, cleaned-up PDF.
 
